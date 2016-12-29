@@ -50,15 +50,15 @@ public class NameCommand extends PlayerCommand {
                 plugin.getJaLogger().updateSnitchName(snitch, name);
                 snitch.setName(name);
 
-                String snitchWorld = snitch.getLoc().getWorld().getName();
-                String snitchGroup = snitch.getGroup().getName();
+                String snitchWorld = "";
+                if (snitch.getLoc() != null && snitch.getLoc().getWorld() != null && snitch.getLoc().getWorld().getName() != null) {
+                    snitchWorld = snitch.getLoc().getWorld().getName();
+                }
+                String snitchGroup = "";
+                if (snitch.getGroup() != null && snitch.getGroup().getName() != null) {
+                    snitchGroup = snitch.getGroup().getName();
+                }
                 String snitchLocation = "[" + snitch.getX() + " " + snitch.getY() + " " + snitch.getZ() + "]";
-                if (snitchWorld == null) {
-                    snitchWorld = "";
-                }
-                if (snitchGroup == null) {
-                    snitchGroup = "";
-                }
                 TextComponent lineText = new TextComponent(ChatColor.AQUA + " Changed snitch name to " + name);
                 String hoverText = String.format("World: %s\nLocation: %s\nGroup: %s\nPrevious name: %s\nName:          %s",
                     snitchWorld, snitchLocation, snitchGroup, prevName, name);
