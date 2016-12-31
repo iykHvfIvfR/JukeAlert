@@ -118,96 +118,96 @@ public class ChatFiller {
 	};
 
 
-    /**
-     * Trims and/or fills a string to be as close to the required length without exceeding it.
-     * If the string is trimmed, the supplied suffix is added (provided that won't exceed reqLength)
-     * @param str string to trim/fill
-     * @param reqLength required length
-     * @return the trimmed/filled string
-     */
-    public static String fillString(String str, Double reqLength, String suffix) {
-        
-        double suffixLength = calcLength(suffix);
-        char[] chars = str.toCharArray();
-        StringBuffer result = new StringBuffer();
-        StringBuffer suffixResult = new StringBuffer();
-        Double length = 0.0;
-        
-        // Cut size and add suffix if necessary
-        boolean suffixFilled = false;
-        for (int i = 0; i < chars.length; i++) {
-            
-            Double charLength = SIZE_MAP.get(chars[i]);
-            if(charLength == null) charLength = DEFAULT_LENGTH;
-            
-            if (!suffixFilled && length + charLength + suffixLength > reqLength){
-                suffixFilled = true;
-                suffixResult.append(suffix);
-            }
+	/**
+	 * Trims and/or fills a string to be as close to the required length without exceeding it.
+	 * If the string is trimmed, the supplied suffix is added (provided that won't exceed reqLength)
+	 * @param str string to trim/fill
+	 * @param reqLength required length
+	 * @return the trimmed/filled string
+	 */
+	public static String fillString(String str, Double reqLength, String suffix) {
 
-            if(length + charLength > reqLength){
-                result = suffixResult;
-                break;
-            }
-            
-            result.append(chars[i]);
-            if (!suffixFilled){
-                suffixResult.append(chars[i]);
-            }
+		double suffixLength = calcLength(suffix);
+		char[] chars = str.toCharArray();
+		StringBuffer result = new StringBuffer();
+		StringBuffer suffixResult = new StringBuffer();
+		Double length = 0.0;
 
-            if(!(chars[i] == ChatColor.COLOR_CHAR || (i > 0 && chars[i-1] == ChatColor.COLOR_CHAR))){
-                length += charLength;
-            }
-        }
-        
-        // Add spaces:
-        Character fillChar = ' ';
-        Double fillLength = 1.0;
-        while(true){
+		// Cut size and add suffix if necessary
+		boolean suffixFilled = false;
+		for (int i = 0; i < chars.length; i++) {
 
-            Double gapLength = reqLength - length;
+			Double charLength = SIZE_MAP.get(chars[i]);
+			if(charLength == null) charLength = DEFAULT_LENGTH;
 
-            // Gap filled:
-            if(gapLength <= 0) break;
+			if (!suffixFilled && length + charLength + suffixLength > reqLength){
+				suffixFilled = true;
+				suffixResult.append(suffix);
+			}
 
-            // Add custom fillers: 
-            if(gapLength <= MAX_GAP){
+			if(length + charLength > reqLength){
+				result = suffixResult;
+				break;
+			}
 
-                fillChar = findCustom(gapLength, reqLength);
-                if(fillChar != null){
-                    result.append(fillChar);
-                    fillLength = SIZE_MAP.get(fillChar);
-                }
+			result.append(chars[i]);
+			if (!suffixFilled){
+				suffixResult.append(chars[i]);
+			}
 
-                break;
+			if(!(chars[i] == ChatColor.COLOR_CHAR || (i > 0 && chars[i-1] == ChatColor.COLOR_CHAR))){
+				length += charLength;
+			}
+		}
 
-            }
+		// Add spaces:
+		Character fillChar = ' ';
+		Double fillLength = 1.0;
+		while(true){
 
-            result.append(fillChar);
-            length += fillLength;
+			Double gapLength = reqLength - length;
 
-        }
+			// Gap filled:
+			if(gapLength <= 0) break;
 
-        return result.toString();
+			// Add custom fillers:
+			if(gapLength <= MAX_GAP){
 
-    }
-    
-    
-    /**
-     * Trims and/or fills a string to be as close to the required length without exceeding it.
-     * If the string is trimmed, no suffix is added
-     * @param str string to trim/fill
-     * @param reqLength required length
-     * @return the trimmed/filled string <= required length
-     */
-    public static String fillString(String str, Double reqLength) {
-        return fillString(str, reqLength, "");
-    }
-    
+				fillChar = findCustom(gapLength, reqLength);
+				if(fillChar != null){
+					result.append(fillChar);
+					fillLength = SIZE_MAP.get(fillChar);
+				}
+
+				break;
+
+			}
+
+			result.append(fillChar);
+			length += fillLength;
+
+		}
+
+		return result.toString();
+
+	}
+
+
+	/**
+	 * Trims and/or fills a string to be as close to the required length without exceeding it.
+	 * If the string is trimmed, no suffix is added
+	 * @param str string to trim/fill
+	 * @param reqLength required length
+	 * @return the trimmed/filled string <= required length
+	 */
+	public static String fillString(String str, Double reqLength) {
+		return fillString(str, reqLength, "");
+	}
+
 
 	/**
 	 * Finds a custom character with the best fit.
-	 * 
+	 *
 	 * @param gapLen gap length
 	 * @param reqLength required length
 	 * @return char that best fits the gap, null if none
@@ -238,7 +238,7 @@ public class ChatFiller {
 
 	/**
 	 * Calculates the length of a string.
-	 * 
+	 *
 	 * @param str string
 	 * @return string length
 	 */
@@ -267,7 +267,7 @@ public class ChatFiller {
 
 	/**
 	 * Adjusts filler characters.
-	 * 
+	 *
 	 * @param str string
 	 * @return adjusted string
 	 */
@@ -278,7 +278,7 @@ public class ChatFiller {
 //		str = str.replace("\u278C", ChatColor.DARK_GRAY + "\"");
 
 		str = str.replace("\u278A", ChatColor.DARK_GRAY + "`");
-		
+
 		//str = str.replace("\u278B", ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "`" + CustomColour.NORMAL_FORMAT);
 		//str = str.replace("\u278C", ChatColor.DARK_GRAY + "" + ChatColor.BOLD + " " + CustomColour.NORMAL_FORMAT);
 

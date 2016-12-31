@@ -21,33 +21,33 @@ public class JaListLongCommand extends PlayerCommand {
 		setIdentifier("jalistlong");
 	}
 
-    @Override
-    public boolean execute(CommandSender sender, String[] args) {
-        if (sender instanceof Player) {
-            int offset = 1;
-            if (args.length > 0) {
-                try {
-                    offset = Integer.parseInt(args[0]);
-                } catch (NumberFormatException e) {
-                    offset = 1;
-                }
-            }
-            if (offset < 1) {
-                offset = 1;
-            }
-            sendSnitchList(sender, offset, false);
-            return true;
-        } else {
-            sender.sendMessage(ChatColor.RED + " You do not have access to snitches!");
-            return false;
-        }
-    }
+	@Override
+	public boolean execute(CommandSender sender, String[] args) {
+		if (sender instanceof Player) {
+			int offset = 1;
+			if (args.length > 0) {
+				try {
+					offset = Integer.parseInt(args[0]);
+				} catch (NumberFormatException e) {
+					offset = 1;
+				}
+			}
+			if (offset < 1) {
+				offset = 1;
+			}
+			sendSnitchList(sender, offset, false);
+			return true;
+		} else {
+			sender.sendMessage(ChatColor.RED + " You do not have access to snitches!");
+			return false;
+		}
+	}
 
-    private void sendSnitchList(CommandSender sender, int offset, boolean truncateNames) {
-        Player player = (Player) sender;
-        GetSnitchListPlayerTask task = new GetSnitchListPlayerTask(JukeAlert.getInstance(), offset, player, truncateNames);
-        Bukkit.getScheduler().runTaskAsynchronously(JukeAlert.getInstance(), task);
-    }
+	private void sendSnitchList(CommandSender sender, int offset, boolean truncateNames) {
+		Player player = (Player) sender;
+		GetSnitchListPlayerTask task = new GetSnitchListPlayerTask(JukeAlert.getInstance(), offset, player, truncateNames);
+		Bukkit.getScheduler().runTaskAsynchronously(JukeAlert.getInstance(), task);
+	}
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String[] args) {

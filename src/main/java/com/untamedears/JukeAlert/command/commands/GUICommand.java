@@ -58,7 +58,7 @@ public class GUICommand extends PlayerCommand {
 		}
 		if (snitches.size() == 0) {
 			player.sendMessage(ChatColor.RED + " You do not own any snitches nearby or lack permission to view their logs!");
-            return true;
+			return true;
 		}
 		if (snitches.size() == 1) {
 			SnitchLogGUI gui = new SnitchLogGUI(player, snitches.iterator().next());

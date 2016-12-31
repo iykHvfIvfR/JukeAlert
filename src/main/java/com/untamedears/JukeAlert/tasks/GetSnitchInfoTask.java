@@ -17,28 +17,28 @@ import java.util.List;
  */
 public class GetSnitchInfoTask implements Runnable {
 
-    private List<String> info = new ArrayList<String>();
-    private int offset;
-    private int snitchId;
-    private JukeAlert plugin;
+	private List<String> info = new ArrayList<String>();
+	private int offset;
+	private int snitchId;
+	private JukeAlert plugin;
 
-    public GetSnitchInfoTask(JukeAlert plugin, int snitchId, int offset) {
-        this.snitchId = snitchId;
-        this.offset = offset;
-        this.plugin = plugin;
-    }
+	public GetSnitchInfoTask(JukeAlert plugin, int snitchId, int offset) {
+		this.snitchId = snitchId;
+		this.offset = offset;
+		this.plugin = plugin;
+	}
 
-    @Override
-    public void run() {
-        List<SnitchAction> entries = plugin.getJaLogger().getSnitchInfo(snitchId, offset * 10, null, "");
-        if (entries != null && !entries.isEmpty()){
-            for (SnitchAction entry : entries){
-                info.add(JukeAlertLogger.createInfoString(entry, false, false));
-            }
-        }
-    }
+	@Override
+	public void run() {
+		List<SnitchAction> entries = plugin.getJaLogger().getSnitchInfo(snitchId, offset * 10, null, "");
+		if (entries != null && !entries.isEmpty()){
+			for (SnitchAction entry : entries){
+				info.add(JukeAlertLogger.createInfoString(entry, false, false));
+			}
+		}
+	}
 
-    public List<String> getInfo() {
-        return info;
-    }
+	public List<String> getInfo() {
+		return info;
+	}
 }
