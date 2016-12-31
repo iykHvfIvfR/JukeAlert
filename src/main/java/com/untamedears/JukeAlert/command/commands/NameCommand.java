@@ -60,7 +60,7 @@ public class NameCommand extends PlayerCommand {
                 }
                 String snitchLocation = "[" + snitch.getX() + " " + snitch.getY() + " " + snitch.getZ() + "]";
                 TextComponent lineText = new TextComponent(ChatColor.AQUA + " Changed snitch name to " + name);
-                String hoverText = String.format("World: %s\nLocation: %s\nGroup: %s\nPrevious name: %s\nName:              %s",
+                String hoverText = String.format("World: %s\nLocation: %s\nGroup: %s\nPrevious name:\n  %s\nName:\n  %s",
                     snitchWorld, snitchLocation, snitchGroup, prevName, name);
                 lineText.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hoverText).create()));
                 player.spigot().sendMessage(lineText);
