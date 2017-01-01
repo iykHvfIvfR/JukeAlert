@@ -1057,59 +1057,6 @@ public class JukeAlertLogger {
 			String initiatedUser, String victimUser) {
 
 		jukeinfobatch.addSet(snitch, material, loc, date, action, initiatedUser, victimUser);
-
-		/*try {
-		 // snitchid
-		 insertSnitchLogStmt.setInt(1, snitch.getId());
-		 // snitch log time
-		 insertSnitchLogStmt.setTimestamp(2, new java.sql.Timestamp(new java.util.Date().getTime()));
-		 // snitch logged action
-		 insertSnitchLogStmt.setByte(3, (byte) action.getLoggedActionId());
-		 // initiated user
-		 insertSnitchLogStmt.setString(4, initiatedUser);
-
-		 // These columns, victimUser, location and materialid can all be null so check if it is an insert SQL null if it is
-
-		 // victim user
-		 if (victimUser != null) {
-		 insertSnitchLogStmt.setString(5, victimUser);
-		 } else {
-		 insertSnitchLogStmt.setNull(5, java.sql.Types.VARCHAR);
-		 }
-
-		 // location, x, y, z
-		 if (loc != null) {
-		 insertSnitchLogStmt.setInt(6, loc.getBlockX());
-		 insertSnitchLogStmt.setInt(7, loc.getBlockY());
-		 insertSnitchLogStmt.setInt(8, loc.getBlockZ());
-		 } else {
-		 insertSnitchLogStmt.setNull(6, java.sql.Types.INTEGER);
-		 insertSnitchLogStmt.setNull(7, java.sql.Types.INTEGER);
-		 insertSnitchLogStmt.setNull(8, java.sql.Types.INTEGER);
-		 }
-
-		 // materialid
-		 if (material != null) {
-		 insertSnitchLogStmt.setShort(9, (short) material.getId());
-		 } else {
-		 insertSnitchLogStmt.setNull(9, java.sql.Types.SMALLINT);
-		 }
-		 Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-		 @Override
-		 public void run() {
-		 try {
-		 insertSnitchLogStmt.execute();
-		 } catch (SQLException ex) {
-		 Logger.getLogger(JukeAlertLogger.class.getName()).log(Level.SEVERE, null, ex);
-		 }
-		 }
-		 });
-		 //To change body of generated methods, choose Tools | Templates.
-
-		 } catch (SQLException ex) {
-		 this.plugin.getLogger().log(Level.SEVERE, String.format("Could not create snitch log entry! with snitch %s, "
-		 + "material %s, date %s, initiatedUser %s, victimUser %s", snitch, material, date, initiatedUser, victimUser), ex);
-		 }*/
 	}
 
 	/**

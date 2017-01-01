@@ -46,15 +46,6 @@ public class MercuryListener implements Listener {
 		int spc = m.indexOf(" ");
 		final String message = m.substring(spc + 1);
 		final String grp = m.substring(0, spc);
-		// don't split if you can just use index ops
-		/*String[] comp = m.split(" ");
-		grp = comp[0];
-		// split the message into the different parts.
-		// They are all realistically the same effect except that how it gets sent to player.
-		StringBuilder message = new StringBuilder();
-		for (int x = 1; x < comp.length; x++) {
-			message.append(comp[x]+" ");
-		}*/
 		new BukkitRunnable() {
 			@Override
 			public void run() {

@@ -85,7 +85,6 @@ public class JaMuteCommand extends PlayerCommand {
 			sender.sendMessage("* Ignoring all groups *");
 			return;
 		}
-		//IgnoreList.GetGroupIgnoreListByPlayer(accountId);
 		//new pull from db to get ignored groups
 		String ignoredGroups = plugin.getJaLogger().getMutedGroups(accountId);
 		plugin.log("Ignored Groups for Player is: " + ignoredGroups);

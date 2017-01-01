@@ -70,10 +70,7 @@ public class ChatFiller {
 			put('`', 0.5);
 			put('\0', 0.0);
 
-			//put('\u278A', 0.5);
-			//put('\u278B', 3.0 / 4.0);
 			put(' ', 1.0);
-			//put('\u278C', 5.0 / 4.0);
 
 			put('\u2500', 5.0 / 4.0);
 			put('\u2502', 1.0 / 4.0);
@@ -94,9 +91,6 @@ public class ChatFiller {
 			put('\u255D', 4.0 / 4.0);
 
 			put('\u2591', 2.0);
-
-			//put(CustomColour.PREVIOUS_COLOR.getChar(), 0.0);
-			//put(CustomColour.NORMAL_FORMAT.getChar(), 0.0);
 		}
 	};
 
@@ -107,10 +101,7 @@ public class ChatFiller {
 
 		private static final long serialVersionUID = 1L;
 		{
-			//add('\u278A');
-			//add('\u278B');
 			add(' ');
-			//add('\u278C');
 		}
 	};
 
@@ -254,13 +245,7 @@ public class ChatFiller {
 	 */
 	public static String adjustFillers(String str) {
 
-		//str = str.replace("\u278A", ChatColor.DARK_GRAY + "`");
-		//str = str.replace("\u278B", ChatColor.DARK_GRAY + "\'");
-		//str = str.replace("\u278C", ChatColor.DARK_GRAY + "\"");
 		str = str.replace("\u278A", ChatColor.DARK_GRAY + "`");
-
-		//str = str.replace("\u278B", ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "`" + CustomColour.NORMAL_FORMAT);
-		//str = str.replace("\u278C", ChatColor.DARK_GRAY + "" + ChatColor.BOLD + " " + CustomColour.NORMAL_FORMAT);
 
 		str = str.replace("\u278B", ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "`");
 		str = str.replace("\u278C", ChatColor.DARK_GRAY + "" + ChatColor.BOLD + " ");

@@ -126,25 +126,6 @@ public class Utility {
 		return exists;
 	}
 
-  /*  public static Snitch findClosestOwnedSnitch(Player player) {
-		Snitch closestSnitch = null;
-		double closestDistance = Double.MAX_VALUE;
-		Location playerLoc = player.getLocation();
-		UUID accountId = player.getUniqueId();
-		Set<Snitch> snitches = JukeAlert.getInstance().getSnitchManager().findSnitches(player.getWorld(), player.getLocation());
-		for (final Snitch snitch : snitches) {
-			if (doesSnitchExist(snitch, true)
-					&& isOnSnitch(snitch, accountId)) {
-				double distance = snitch.getLoc().distanceSquared(playerLoc);
-				if (distance < closestDistance) {
-					closestDistance = distance;
-					closestSnitch = snitch;
-				}
-			}
-		}
-		return closestSnitch;
-	} */
-
 	public static Snitch findClosestSnitch(Location loc, PermissionType perm, UUID player) {
 
 		Snitch closestSnitch = null;
