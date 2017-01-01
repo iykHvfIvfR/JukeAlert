@@ -209,11 +209,20 @@ public class JukeAlertListener implements Listener {
 			return;
 		}
 		Block block = event.getBlock();
+		if (block == null || block.getType() == null) {
+			return;
+		}
 		boolean isJukebox = block.getType().equals(Material.JUKEBOX);
 		Player player = event.getPlayer();
+		if (player == null) {
+			return;
+		}
 		Location loc = block.getLocation();
+		if (loc == null) {
+			return;
+		}
 		Reinforcement rei = event.getReinforcement();
-		if (!(rei instanceof PlayerReinforcement)) {
+		if (rei == null || !(rei instanceof PlayerReinforcement)) {
 			return;
 		}
 		PlayerReinforcement reinforcement = (PlayerReinforcement) rei;
