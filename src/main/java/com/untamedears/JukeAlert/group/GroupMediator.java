@@ -14,17 +14,20 @@ public class GroupMediator {
 	private GroupManager groupManager;
 
 	public GroupMediator() {
+
 		this.groupManager = NameAPI.getGroupManager();
 	}
 
 	public Group getGroupByName(String groupName) {
+
 		return GroupManager.getGroup(groupName);
 	}
 
 	public List<String> getGroupsWithPermission(UUID accountId, PermissionType perm) {
+
 		List<String> returnValue = new ArrayList<String>();
 		List<Group> groups = new ArrayList<Group>();
-		for (String group: groupManager.getAllGroupNames(accountId)){
+		for (String group: groupManager.getAllGroupNames(accountId)) {
 			Group g = GroupManager.getGroup(group);
 			if (g == null) {
 				continue;
@@ -33,12 +36,11 @@ public class GroupMediator {
 				groups.add(g);
 			}
 		}
-		for(Group f : groups) {
+		for (Group f : groups) {
 			if (!returnValue.contains(f.getName())) {
 				returnValue.add(f.getName());
 			}
 		}
-
 		return returnValue;
 	}
 }

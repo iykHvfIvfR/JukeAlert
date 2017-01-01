@@ -20,15 +20,23 @@ import java.util.List;
 public class Database {
 
 	private String host;
+
 	private int port;
+
 	private String db;
+
 	private String user;
+
 	private String password;
+
 	private String prefix;
+
 	private Logger logger;
+
 	private Connection connection;
 
 	public Database(String host, int port, String db, String user, String password, String prefix, Logger logger) {
+
 		this.host = host;
 		this.port = port;
 		this.db = db;
@@ -39,22 +47,27 @@ public class Database {
 	}
 
 	public String getDb() {
+
 		return db;
 	}
 
 	public String getHost() {
+
 		return host;
 	}
 
 	public String getPassword() {
+
 		return password;
 	}
 
 	public String getPrefix() {
+
 		return prefix;
 	}
 
 	public String getUser() {
+
 		return user;
 	}
 
@@ -64,7 +77,9 @@ public class Database {
 	 * @since 0.1
 	 */
 	public boolean connect() {
-		String jdbc = "jdbc:mysql://" + host + ":" + port + "/" + db + "?user=" + user + "&password=" + password + "&autoReconnect=true";
+
+		String jdbc = "jdbc:mysql://" + host + ":" + port + "/" + db + "?user=" + user + "&password=" + password
+			+ "&autoReconnect=true";
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 		} catch (Exception ex) {
@@ -86,6 +101,7 @@ public class Database {
 	 * @since 0.1
 	 */
 	public void close() {
+
 		try {
 			connection.close();
 		} catch (SQLException ex) {
@@ -100,6 +116,7 @@ public class Database {
 	 * @throws SQLException
 	 */
 	public boolean isConnected() {
+
 		try {
 			return connection.isValid(5);
 		} catch (SQLException ex) {
@@ -115,6 +132,7 @@ public class Database {
 	 * @throws SQLException
 	 */
 	public PreparedStatement prepareStatement(String sqlStatement) {
+
 		try {
 			return connection.prepareStatement(sqlStatement);
 		} catch (SQLException ex) {
@@ -129,6 +147,7 @@ public class Database {
 	 * @param sql The SQL query as a string.
 	 */
 	public void execute(String sql) {
+
 		try {
 			connection.prepareStatement(sql).executeUpdate();
 		} catch (SQLException ex) {
@@ -147,6 +166,7 @@ public class Database {
 	 * @param sql The SQL query as a string.
 	 */
 	public void executeLoud(String sql) throws java.sql.SQLException {
+
 		try {
 			connection.prepareStatement(sql).executeUpdate();
 		} catch (SQLException ex) { // one quiet retry, scream on failure.
@@ -161,6 +181,7 @@ public class Database {
 	 * @param sql The SQL query as a strign.
 	 */
 	public void silentExecute(String sql) {
+
 		try {
 			connection.prepareStatement(sql).executeUpdate();
 		} catch (SQLException ex) { // one quiet retry, scream on failure.
@@ -175,6 +196,7 @@ public class Database {
 	 * @return ResultSet
 	 */
 	public ResultSet getResultSet(String sql) {
+
 		try {
 			return connection.createStatement().executeQuery(sql);
 		} catch (SQLException ex) {
@@ -197,6 +219,7 @@ public class Database {
 	 * @since 0.1
 	 */
 	public String getString(String sql) {
+
 		try {
 			ResultSet result = getResultSet(sql);
 			if (result == null) {
@@ -218,6 +241,7 @@ public class Database {
 	 * @return int
 	 */
 	public int getInteger(String sql) {
+
 		try {
 			ResultSet result = getResultSet(sql);
 			if (result == null) {
@@ -239,6 +263,7 @@ public class Database {
 	 * @return double
 	 */
 	public double getDouble(String sql) {
+
 		try {
 			ResultSet result = getResultSet(sql);
 			if (result == null) {
@@ -260,6 +285,7 @@ public class Database {
 	 * @return boolean
 	 */
 	public boolean getBoolean(String sql) {
+
 		try {
 			ResultSet result = getResultSet(sql);
 			if (result == null) {
@@ -282,6 +308,7 @@ public class Database {
 	 * @return List of column values
 	 */
 	public List<String> getColumn(String sql) {
+
 		List<String> coldata = new ArrayList<String>();
 		try {
 			ResultSet result = getResultSet(sql);

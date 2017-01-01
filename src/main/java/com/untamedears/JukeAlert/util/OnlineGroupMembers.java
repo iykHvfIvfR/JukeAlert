@@ -26,23 +26,36 @@ import com.untamedears.JukeAlert.manager.ConfigManager;
 //  of this class can only be iterated over once and once iteration starts
 //  the configurable values can't be changed.
 public class OnlineGroupMembers implements Iterable<Player>, Iterator<Player> {
+
 	public static OnlineGroupMembers get(String groupName) {
+
 		return new OnlineGroupMembers(groupName);
 	}
 
 	private String groupName_;
+
 	private Iterator<OfflinePlayer> mods_iter_ = null;
+
 	private Iterator<OfflinePlayer> member_iter_ = null;
+
 	private Player next_ = null;
+
 	private int state_ = 0;
+
 	private int returnedCount_ = 0;
+
 	private Double maxDistance_;
+
 	private int maxPlayers_;
+
 	private Location referenceLocation_ = null;
+
 	private boolean alreadyIterating_ = false;
-	private Set<String> skipList_= null;
+
+	private Set<String> skipList_ = null;
 
 	public OnlineGroupMembers(String groupName) {
+
 		groupName_ = groupName;
 
 		ConfigManager config = JukeAlert.getInstance().getConfigManager();
@@ -51,6 +64,7 @@ public class OnlineGroupMembers implements Iterable<Player>, Iterator<Player> {
 	}
 
 	public OnlineGroupMembers maxPlayers(Integer value) {
+
 		if (alreadyIterating_) {
 			throw new UnsupportedOperationException();
 		}
@@ -61,6 +75,7 @@ public class OnlineGroupMembers implements Iterable<Player>, Iterator<Player> {
 	}
 
 	public OnlineGroupMembers maxDistance(Double value) {
+
 		if (alreadyIterating_) {
 			throw new UnsupportedOperationException();
 		}
@@ -71,6 +86,7 @@ public class OnlineGroupMembers implements Iterable<Player>, Iterator<Player> {
 	}
 
 	public OnlineGroupMembers reference(Location loc) {
+
 		if (alreadyIterating_) {
 			throw new UnsupportedOperationException();
 		}
@@ -86,11 +102,11 @@ public class OnlineGroupMembers implements Iterable<Player>, Iterator<Player> {
 		skipList_ = list;
 
 		return this;
-
 	}
 
 	@Override  // Iterator<Player>
 	public Player next() {
+
 		startIterating();
 		if (next_ == null) {
 			throw new NoSuchElementException();
@@ -102,17 +118,20 @@ public class OnlineGroupMembers implements Iterable<Player>, Iterator<Player> {
 
 	@Override  // Iterator<Player>
 	public boolean hasNext() {
+
 		startIterating();
 		return next_ != null;
 	}
 
 	@Override  // Iterator<Player>
 	public void remove() {
+
 		throw new UnsupportedOperationException();
 	}
 
 	@Override  // Iterable<Player>
 	public Iterator<Player> iterator() {
+
 		if (alreadyIterating_) {
 			throw new UnsupportedOperationException();
 		}
@@ -121,6 +140,7 @@ public class OnlineGroupMembers implements Iterable<Player>, Iterator<Player> {
 	}
 
 	private void startIterating() {
+
 		if (!alreadyIterating_) {
 			alreadyIterating_ = true;
 			next_ = getNextPlayer();
@@ -128,23 +148,28 @@ public class OnlineGroupMembers implements Iterable<Player>, Iterator<Player> {
 	}
 
 	private Player getFounder() {
+
 		Group group = GroupManager.getGroup(groupName_);
 		if (group != null) {
 			Player player = Bukkit.getPlayer(group.getOwner());
-			if (player != null)
+			if (player != null) {
 				return player;
+			}
 		}
 		return null;
 	}
 
 	private Player getNextModerator() {
+
 		if (mods_iter_ == null) {
 			List<UUID> uuids = GroupManager.getGroup(groupName_).getAllMembers();
 			Group g = GroupManager.getGroup(groupName_);
 			List<OfflinePlayer> mods = new ArrayList<OfflinePlayer>();
-			for (UUID uuid: uuids)
-				if (g.getPlayerType(uuid) != PlayerType.MEMBERS && !g.isOwner(uuid))
+			for (UUID uuid: uuids) {
+				if (g.getPlayerType(uuid) != PlayerType.MEMBERS && !g.isOwner(uuid)) {
 					mods.add(Bukkit.getOfflinePlayer(uuid));
+				}
+			}
 			mods_iter_ = mods.iterator();
 		}
 		while (mods_iter_.hasNext()) {
@@ -159,10 +184,11 @@ public class OnlineGroupMembers implements Iterable<Player>, Iterator<Player> {
 	}
 
 	private Player getNextMember() {
+
 		if (member_iter_ == null) {
 			List<UUID> uuids = GroupManager.getGroup(groupName_).getAllMembers();
 			List<OfflinePlayer> members = new ArrayList<OfflinePlayer>();
-			for (UUID uuid: uuids){
+			for (UUID uuid: uuids) {
 				Group g = GroupManager.getGroup(groupName_);
 				if (g.getPlayerType(uuid) == PlayerType.MEMBERS && !g.getOwner().equals(uuid)) {
 					members.add(Bukkit.getOfflinePlayer(uuid));
@@ -182,6 +208,7 @@ public class OnlineGroupMembers implements Iterable<Player>, Iterator<Player> {
 	}
 
 	private Player getPlayerByState() {
+
 		Player player = null;
 		if (state_ <= 0) {
 			player = getFounder();
@@ -201,11 +228,13 @@ public class OnlineGroupMembers implements Iterable<Player>, Iterator<Player> {
 	}
 
 	private boolean inFinalState() {
+
 		return state_ >= 3;
 	}
 
 	// If the player is out of range return null, otherwise return the player.
 	private Player outOfRange(Player player) {
+
 		if (player == null) {
 			return null;
 		}
@@ -219,6 +248,7 @@ public class OnlineGroupMembers implements Iterable<Player>, Iterator<Player> {
 
 	// If the player is ignoring this group return null, otherwise return the player.
 	private Player playerIgnoringGroup(Player player) {
+
 		if (player == null) {
 			return null;
 		}
@@ -233,6 +263,7 @@ public class OnlineGroupMembers implements Iterable<Player>, Iterator<Player> {
 	}
 
 	private Player getNextPlayer() {
+
 		if (returnedCount_ >= maxPlayers_) {
 			return null;
 		}

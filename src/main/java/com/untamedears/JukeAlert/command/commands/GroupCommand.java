@@ -18,6 +18,7 @@ import com.untamedears.JukeAlert.tasks.GetSnitchInfoPlayerTask;
 public class GroupCommand extends PlayerCommand {
 
 	public GroupCommand() {
+
 		super("Group");
 		setDescription("Displays information from a group");
 		setUsage("/jagroup <group> <page>");
@@ -27,13 +28,14 @@ public class GroupCommand extends PlayerCommand {
 
 	@Override
 	public boolean execute(CommandSender sender, String[] args) {
+
 		if (sender instanceof Player) {
-			Player player = (Player)sender;
+			Player player = (Player) sender;
 			int offset = 1;
 			if (args.length > 1) {
 				try {
 					offset = Integer.parseInt(args[1]);
-				} catch(NumberFormatException e) {
+				} catch (NumberFormatException e) {
 					offset = 1;
 				}
 			}
@@ -47,8 +49,7 @@ public class GroupCommand extends PlayerCommand {
 					return true;
 				}
 				UUID accountId = player.getUniqueId();
-				if (!group.isMember(accountId))
-				{
+				if (!group.isMember(accountId)) {
 					sender.sendMessage(ChatColor.RED + "You are not part of that group!");
 					return true;
 				}
@@ -61,6 +62,7 @@ public class GroupCommand extends PlayerCommand {
 	}
 
 	private void sendLog(CommandSender sender, String group, int offset) {
+
 		Player player = (Player) sender;
 		GetSnitchInfoPlayerTask task = new GetSnitchInfoPlayerTask(JukeAlert.getInstance(), group, offset, player);
 		Bukkit.getScheduler().runTaskAsynchronously(JukeAlert.getInstance(), task);
@@ -68,6 +70,7 @@ public class GroupCommand extends PlayerCommand {
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String[] args) {
+
 		return null;
 	}
 }

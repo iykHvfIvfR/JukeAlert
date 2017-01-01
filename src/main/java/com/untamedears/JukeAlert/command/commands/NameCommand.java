@@ -18,10 +18,10 @@ import vg.civcraft.mc.namelayer.permission.PermissionType;
 import com.untamedears.JukeAlert.JukeAlert;
 import com.untamedears.JukeAlert.model.Snitch;
 
-
 public class NameCommand extends PlayerCommand {
 
 	public NameCommand() {
+
 		super("Name");
 		setDescription("Set snitch name");
 		setUsage("/janame <name>");
@@ -31,6 +31,7 @@ public class NameCommand extends PlayerCommand {
 
 	@Override
 	public boolean execute(CommandSender sender, String[] args) {
+
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 
@@ -51,7 +52,9 @@ public class NameCommand extends PlayerCommand {
 				snitch.setName(name);
 
 				String snitchWorld = "";
-				if (snitch.getLoc() != null && snitch.getLoc().getWorld() != null && snitch.getLoc().getWorld().getName() != null) {
+				if (snitch.getLoc() != null
+						&& snitch.getLoc().getWorld() != null
+						&& snitch.getLoc().getWorld().getName() != null) {
 					snitchWorld = snitch.getLoc().getWorld().getName();
 				}
 				String snitchGroup = "";
@@ -60,9 +63,11 @@ public class NameCommand extends PlayerCommand {
 				}
 				String snitchLocation = "[" + snitch.getX() + " " + snitch.getY() + " " + snitch.getZ() + "]";
 				TextComponent lineText = new TextComponent(ChatColor.AQUA + " Changed snitch name to " + name);
-				String hoverText = String.format("World: %s\nLocation: %s\nGroup: %s\nPrevious name:\n  %s\nNew name:\n  %s",
+				String hoverText = String.format(
+					"World: %s\nLocation: %s\nGroup: %s\nPrevious name:\n  %s\nNew name:\n  %s",
 					snitchWorld, snitchLocation, snitchGroup, prevName, name);
-				lineText.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hoverText).create()));
+				lineText.setHoverEvent(
+					new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hoverText).create()));
 				player.spigot().sendMessage(lineText);
 			}
 			return true;
@@ -74,6 +79,7 @@ public class NameCommand extends PlayerCommand {
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String[] args) {
+
 		return null;
 	}
 }

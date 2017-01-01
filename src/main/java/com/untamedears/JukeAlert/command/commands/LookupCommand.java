@@ -22,6 +22,7 @@ public class LookupCommand extends PlayerCommand {
 	private SnitchManager snitchManager;
 
 	public LookupCommand() {
+
 		super("Lookup");
 		setDescription("Lookup a snitch's group by its coordinates");
 		setUsage("/jalookup <x> <y> <z> [world]");
@@ -32,19 +33,23 @@ public class LookupCommand extends PlayerCommand {
 
 	@Override
 	public boolean execute(CommandSender sender, String[] args) {
-		boolean canLookupAny = (sender instanceof ConsoleCommandSender || sender.hasPermission("jukealert.admin.lookupany"));
+
+		boolean canLookupAny = (
+			sender instanceof ConsoleCommandSender || sender.hasPermission("jukealert.admin.lookupany"));
 		Player player = null;
 		if (sender instanceof Player) {
-			player = (Player)sender;
+			player = (Player) sender;
 		}
 		if (player != null || canLookupAny) {
-			int x, y, z;
+			int x;
+			int y;
+			int z;
 			String world;
 			try {
 				x = Integer.parseInt(args[0]);
 				y = Integer.parseInt(args[1]);
 				z = Integer.parseInt(args[2]);
-				if(args.length == 3) {
+				if (args.length == 3) {
 					world = player.getLocation().getWorld().getName();
 				} else {
 					world = args[3];
@@ -53,19 +58,23 @@ public class LookupCommand extends PlayerCommand {
 				sender.sendMessage(ChatColor.RED + "Invalid coordinates.");
 				return false;
 			}
-			if(Bukkit.getWorld(world) == null) {
+			if (Bukkit.getWorld(world) == null) {
 				sender.sendMessage(ChatColor.RED + "Invalid world.");
 				return false;
 			}
 			Location loc = new Location(Bukkit.getWorld(world), x, y, z);
 			Snitch match = snitchManager.getSnitch(loc.getWorld(), loc);
-			if(match == null) {
+			if (match == null) {
 				sender.sendMessage(ChatColor.RED + "You do not own a snitch at those coordinates!");
 				return false;
 			}
-			if(canLookupAny || (
-					player != null && NameAPI.getGroupManager().hasAccess(match.getGroup(), player.getUniqueId(), PermissionType.getPermission("LOOKUP_SNITCH")))) {
-				sender.sendMessage(ChatColor.AQUA + "The snitch at [" + x + " " + y + " " + z + "] is owned by " + match.getGroup().getName());
+			if (canLookupAny || (
+					player != null
+					&& NameAPI.getGroupManager().hasAccess(
+						match.getGroup(), player.getUniqueId(), PermissionType.getPermission("LOOKUP_SNITCH")))) {
+				sender.sendMessage(ChatColor.AQUA
+				                   + "The snitch at [" + x + " " + y + " " + z + "] is owned by "
+				                   + match.getGroup().getName());
 			} else {
 				sender.sendMessage(ChatColor.RED + "You don't have permission to lookup the group of this snitch");
 			}
@@ -78,6 +87,7 @@ public class LookupCommand extends PlayerCommand {
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String[] args) {
+
 		return null;
 	}
 }

@@ -20,6 +20,7 @@ import vg.civcraft.mc.namelayer.permission.PermissionType;
 public class ClearCommand extends PlayerCommand {
 
 	public ClearCommand() {
+
 		super("Clear");
 		setDescription("Clears snitch logs");
 		setUsage("/jaclear");
@@ -29,6 +30,7 @@ public class ClearCommand extends PlayerCommand {
 
 	@Override
 	public boolean execute(final CommandSender sender, String[] args) {
+
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 			final Snitch snitch = findLookingAtOrClosestSnitch(player, PermissionType.getPermission("CLEAR_SNITCHLOG"));
@@ -40,9 +42,9 @@ public class ClearCommand extends PlayerCommand {
 					}
 				});
 			   return true;
-			}
-			else {
-				sender.sendMessage(ChatColor.RED + "You do not own any snitches nearby or lack permission to delete their logs!");
+			} else {
+				sender.sendMessage(
+					ChatColor.RED + "You do not own any snitches nearby or lack permission to delete their logs!");
 				return true;
 			}
 		} else {
@@ -53,16 +55,16 @@ public class ClearCommand extends PlayerCommand {
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String[] args) {
+
 		return null;
 	}
 
-
 	public static void deleteLog(CommandSender sender, Snitch snitch) {
+
 		final Player player = (Player) sender;
 		final Boolean completed = JukeAlert.getInstance().getJaLogger().deleteSnitchInfo(snitch.getId());
 		//only send messages sync
 		new BukkitRunnable() {
-
 			@Override
 			public void run() {
 				if (completed) {

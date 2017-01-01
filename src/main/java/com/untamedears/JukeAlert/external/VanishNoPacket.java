@@ -7,22 +7,27 @@ import org.bukkit.plugin.PluginManager;
 import org.kitteh.vanish.VanishPlugin;
 
 public class VanishNoPacket {
+
 	private PluginManager pluginManager_;
+
 	private VanishPlugin vanishPlugin_ = null;
 
 	public VanishNoPacket() {
+
 		pluginManager_ = Bukkit.getPluginManager();
 	}
 
 	public boolean isEnabled() {
+
 		if (vanishPlugin_ != null) {
 			return true;
 		}
-		vanishPlugin_ = (VanishPlugin)pluginManager_.getPlugin("VanishNoPacket");
+		vanishPlugin_ = (VanishPlugin) pluginManager_.getPlugin("VanishNoPacket");
 		return vanishPlugin_ != null;
 	}
 
 	public boolean isPlayerVisible(Player player) {
+
 		if (!isEnabled()) {
 			return true;
 		}
@@ -30,6 +35,7 @@ public class VanishNoPacket {
 	}
 
 	public boolean isPlayerInvisible(Player player) {
+
 		if (!isEnabled()) {
 			return false;
 		}

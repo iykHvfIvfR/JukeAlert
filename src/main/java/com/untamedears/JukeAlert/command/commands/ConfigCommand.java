@@ -11,6 +11,7 @@ import com.untamedears.JukeAlert.util.RateLimiter;
 public class ConfigCommand extends PlayerCommand {
 
 	public ConfigCommand() {
+
 		super("Config");
 		setDescription("Run-time configuration");
 		setUsage("/jaconfig");
@@ -20,6 +21,7 @@ public class ConfigCommand extends PlayerCommand {
 
 	@Override
 	public boolean execute(final CommandSender sender, String[] args) {
+
 		if (args.length != 2) {
 			return false;
 		}
@@ -29,7 +31,7 @@ public class ConfigCommand extends PlayerCommand {
 			int rate;
 			try {
 				rate = Integer.parseInt(value);
-			} catch(Exception ex) {
+			} catch (Exception ex) {
 				sender.sendMessage("Specify an integer value.");
 				return true;
 			}
@@ -43,6 +45,7 @@ public class ConfigCommand extends PlayerCommand {
 
 	@Override
 	public List<String> tabComplete(CommandSender sender, String[] args) {
+
 		return null;
 	}
 }

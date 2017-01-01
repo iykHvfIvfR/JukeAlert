@@ -32,12 +32,16 @@ public enum LoggedAction {
 	ENTITY_DISMOUNT(15, "Dismount", ChatColor.GOLD, 3);
 
 	private int value;
+
 	private String actionString;
+
 	private ChatColor actionColor;
+
 	private int actionTextType;
 
 	// constructor, has to be private
 	private LoggedAction(int value, String actionString, ChatColor actionColor, int actionTextType) {
+
 		this.value = value;
 		this.actionString = actionString;
 		this.actionColor = actionColor;
@@ -45,23 +49,28 @@ public enum LoggedAction {
 	}
 
 	public int getLoggedActionId() {
+
 		return this.value;
 	}
 
-	public String getActionString(){
+	public String getActionString() {
+
 		return this.actionString;
 	}
 
-	public ChatColor getActionColor(){
+	public ChatColor getActionColor() {
+
 		return this.actionColor;
 	}
 
-	public int getActionTextType(){
+	public int getActionTextType() {
+
 		return this.actionTextType;
 	}
 
 	public static LoggedAction getFromId(int id) {
-		switch(id) {
+
+		switch (id) {
 			case 0: return KILL;
 			case 1: return BLOCK_PLACE;
 			case 2: return BLOCK_BREAK;
@@ -89,11 +98,12 @@ public enum LoggedAction {
 	 * @return matching LoggedAction
 	 * @throws ParseException if the string couldn't be decoded to a LoggedAction
 	 */
-	public static LoggedAction fromString(String action) throws ParseException{
-		for (LoggedAction a : LoggedAction.values()){
+	public static LoggedAction fromString(String action) throws ParseException {
+
+		for (LoggedAction a : LoggedAction.values()) {
 			String actionName = a.toString();
 			String actionDisp = a.actionString;
-			if (actionName.equalsIgnoreCase(action) || actionDisp.equalsIgnoreCase(action)){
+			if (actionName.equalsIgnoreCase(action) || actionDisp.equalsIgnoreCase(action)) {
 				return a;
 			}
 		}
