@@ -55,7 +55,7 @@ public class JaMuteCommand extends PlayerCommand {
 		}
 
 		if (plugin.getJaLogger().getMutedGroups(accountId) == null) {
-			//no groups mute first group
+			// No groups - mute first group
 			plugin.getJaLogger().muteGroups(accountId, groupName);
 			player.sendMessage("Added group \"" + groupName + "\" to ignore list! \n "
 				+ "Use /jamute on this group again to unmute");
@@ -65,11 +65,11 @@ public class JaMuteCommand extends PlayerCommand {
 		List<String> groups = (Arrays.asList(plugin.getJaLogger().getMutedGroups(accountId).split("\\s+")));
 
 		if (groups.contains(groupName)) {
-			//unmute the group if its in their list
+			// Unmute the group if it's in their list
 			plugin.getJaLogger().removeIgnoredGroup(groupName,  accountId);
 			player.sendMessage("Removed group \"" + groupName + "\" from ignore list!");
 		} else {
-			//add the group
+			// Add the group
 			plugin.getJaLogger().updateMutedGroups(accountId, groupName);
 			player.sendMessage("Added group \"" + groupName + "\" to ignore list! \n "
 				+ "Use /jamute on this group again to unmute");
@@ -85,7 +85,7 @@ public class JaMuteCommand extends PlayerCommand {
 			sender.sendMessage("* Ignoring all groups *");
 			return;
 		}
-		//new pull from db to get ignored groups
+		// New pull from db to get ignored groups
 		String ignoredGroups = plugin.getJaLogger().getMutedGroups(accountId);
 		plugin.log("Ignored Groups for Player is: " + ignoredGroups);
 		if (ignoredGroups == null) {

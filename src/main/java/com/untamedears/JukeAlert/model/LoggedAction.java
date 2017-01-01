@@ -39,7 +39,7 @@ public enum LoggedAction {
 
 	private int actionTextType;
 
-	// constructor, has to be private
+	// Constructor, has to be private
 	private LoggedAction(int value, String actionString, ChatColor actionColor, int actionTextType) {
 
 		this.value = value;

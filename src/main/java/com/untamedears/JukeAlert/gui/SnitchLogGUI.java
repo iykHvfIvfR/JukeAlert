@@ -192,7 +192,7 @@ public class SnitchLogGUI {
 						bucketName = action.getMaterial().toString();
 					}
 					if (is.getItemMeta() == null) {
-						//this is needed due to uncreatable itemstacks being stored as used item
+						// This is needed due to uncreatable itemstacks being stored as used item
 						is = new ItemStack(Material.WATER_BUCKET);
 					}
 					String bucketAction = action.getAction() == LoggedAction.BUCKET_EMPTY ? "emptied" : "filled";
@@ -237,7 +237,7 @@ public class SnitchLogGUI {
 					break;
 				case UNKNOWN:
 				case USED:
-					// currently unused
+					// Currently unused
 					continue;
 				case VEHICLE_DESTROY:
 					is = new ItemStack(Material.MINECART);

@@ -205,7 +205,7 @@ public class JukeAlertLogger {
 	 */
 	private void genTables() {
 
-		//Snitches
+		// Snitches
 		db.execute("CREATE TABLE IF NOT EXISTS `" + snitchsTbl + "` ("
 			+ "`snitch_id` int(10) unsigned NOT NULL AUTO_INCREMENT,"
 			+ "`snitch_world` varchar(40) NOT NULL,"
@@ -220,15 +220,15 @@ public class JukeAlertLogger {
 			+ "`snitch_should_log` BOOL,"
 			+ "PRIMARY KEY (`snitch_id`),"
 			+ "INDEX `idx_y` (`snitch_y` ASC));");
-		//Snitch Details
-		// need to know:
-		// action: (killed, block break, block place, etc), can't be null
-		// person who initiated the action (player name), can't be null
-		// victim of action (player name, entity), can be null
-		// x, (for things like block place, bucket empty, etc, NOT the snitch x,y,z) can be null
-		// y, can be null
-		// z, can be null
-		// block_id, can be null (block id for block place, block use, block break, etc)
+		// Snitch Details
+		// Need to know:
+		//  Action: (killed, block break, block place, etc), can't be null
+		//  Person who initiated the action (player name), can't be null
+		//  Victim of action (player name, entity), can be null
+		//  x, (for things like block place, bucket empty, etc, NOT the snitch x,y,z) can be null
+		//  y, can be null
+		//  z, can be null
+		//  block_id, can be null (block id for block place, block use, block break, etc)
 		db.execute("CREATE TABLE IF NOT EXISTS `" + snitchDetailsTbl + "` ("
 			+ "`snitch_details_id` int(10) unsigned NOT NULL AUTO_INCREMENT,"
 			+ "`snitch_id` int(10) unsigned NOT NULL," // reference to the column in the main snitches table
@@ -245,10 +245,10 @@ public class JukeAlertLogger {
 			+ "CONSTRAINT `fk_snitchs_snitch_id` FOREIGN KEY (`snitch_id`)"
 			+ "  REFERENCES `" + snitchsTbl + "` (`snitch_id`) ON DELETE CASCADE ON UPDATE CASCADE);");
 
-		//Snitch Mute Table
-		//Small table to contain User and the muted groups, 2 columns
-		// column1 = uuid varchar(40) (no null)
-		// column2 = mutedgroups varchar(255) can be null (no groups to ignore)
+		// Snitch Mute Table
+		// Small table to contain User and the muted groups, 2 columns:
+		//  column1 = uuid varchar(40) (no null)
+		//  column2 = mutedgroups varchar(255) can be null (no groups to ignore)
 		db.execute("CREATE TABLE IF NOT EXISTS `" + mutedGroupsTbl + "`("
 			+ "uuid varchar(40) NOT NULL,"
 			+ "muted_groups varchar(255),"
@@ -475,9 +475,9 @@ public class JukeAlertLogger {
 		getLastSnitchID = db.prepareStatement(String.format(
 				"SHOW TABLE STATUS LIKE '%s'", snitchsTbl));
 
-		// statement to get LIMIT entries OFFSET from a number from the snitchesDetailsTbl based on
-		// a snitch_id from the main snitchesTbl
-		// LIMIT ?,? means offset followed by max rows to return
+		// Statement to get LIMIT entries OFFSET from a number from the snitchesDetailsTbl based on
+		//  a snitch_id from the main snitchesTbl
+		//  LIMIT ?,? means offset followed by max rows to return
 		getSnitchLogStmt = String.format(
 				"SELECT * FROM %s"
 				+ " WHERE snitch_id=? AND soft_delete = 0 ORDER BY snitch_log_time DESC LIMIT ?,?",
@@ -498,14 +498,14 @@ public class JukeAlertLogger {
 				snitchDetailsTbl);
 
 		// This is the same as getSnitchLogStmt, but with extra parameters for both action type (byte) and
-		// initiating user (string)
+		//  initiating user (string)
 		getSnitchLogFilterActionAndPlayerStmt = String.format(
 				"SELECT * FROM %s"
 				+ " WHERE snitch_id=? AND snitch_logged_action=? AND snitch_logged_initiated_user LIKE ? AND soft_delete = 0"
 				+ " ORDER BY snitch_log_time DESC LIMIT ?,?",
 				snitchDetailsTbl);
 
-		//get all entries for a snitch
+		// Get all entries for a snitch
 		getAllSnitchLogs = db.prepareStatement(String.format(
 			"select * from %s where snitch_id = ? AND soft_delete = 0 order by snitch_log_time desc;", snitchDetailsTbl));
 
@@ -521,70 +521,58 @@ public class JukeAlertLogger {
 				, daysFromLastAdminVisitForNonLoggedSnitchCulling
 				, logsPerPage));
 
-		// statement to get the ID of a snitch in the main snitchsTbl based on a Location (x,y,z, world)
+		// Statement to get the ID of a snitch in the main snitchsTbl based on a Location (x,y,z, world)
 		getSnitchIdFromLocationStmt = db.prepareStatement(String.format("SELECT snitch_id FROM %s"
 				+ " WHERE snitch_x=? AND snitch_y=? AND snitch_z=? AND snitch_world=? AND soft_delete = 0", snitchsTbl));
 
-		//
 		insertNewSnitchStmt = db.prepareStatement(String.format(
 				"INSERT INTO %s (snitch_world, snitch_name, snitch_x, snitch_y, snitch_z, snitch_group, snitch_cuboid_x, snitch_cuboid_y, snitch_cuboid_z, snitch_should_log, last_semi_owner_visit_date,allow_triggering_lever)"
 				+ " VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, UTC_TIMESTAMP(),0)",
 				snitchsTbl));
 
-		//
 		deleteSnitchLogStmt = db.prepareStatement(String.format(
 				"DELETE FROM %s WHERE snitch_id=?",
 				snitchDetailsTbl));
 
-		//
 		softDeleteSnitchLogStmt = db.prepareStatement(String.format(
 				"UPDATE %s SET soft_delete = 1 WHERE snitch_id=?",
 				snitchDetailsTbl));
 
-		//
 		deleteSnitchStmt = db.prepareStatement(String.format(
 				"DELETE FROM %s WHERE snitch_world=? AND snitch_x=? AND snitch_y=? AND snitch_z=?",
 				snitchsTbl));
 
-		//
 		softDeleteSnitchStmt = db.prepareStatement(String.format(
 				"UPDATE %s SET soft_delete = 1 WHERE snitch_world=? AND snitch_x=? AND snitch_y=? AND snitch_z=?",
 				snitchsTbl));
 
-		//
 		updateGroupStmt = db.prepareStatement(String.format(
 				"UPDATE %s SET snitch_group=? WHERE snitch_world=? AND snitch_x=? AND snitch_y=? AND snitch_z=?",
 				snitchsTbl));
 
-		//
 		updateCuboidVolumeStmt = db.prepareStatement(String.format(
 				"UPDATE %s SET snitch_cuboid_x=?, snitch_cuboid_y=?, snitch_cuboid_z=?"
 				+ " WHERE snitch_world=? AND snitch_x=? AND snitch_y=? AND snitch_z=?",
 				snitchsTbl));
 
-		//
 		updateSnitchNameStmt = db.prepareStatement(String.format(
 				"UPDATE %s SET snitch_name=?"
 				+ " WHERE snitch_id=?",
 				snitchsTbl));
 
-		//
 		updateSnitchToggleLeversStmt = db.prepareStatement(String.format(
 				"UPDATE %s SET allow_triggering_lever=?"
 				+ " WHERE snitch_id=?",
 				snitchsTbl));
 
-		//
 		updateSnitchGroupStmt = db.prepareStatement(String.format(
 				"UPDATE %s SET snitch_group=?"
 				+ " WHERE snitch_id=?",
 				snitchsTbl));
 
-		//
 		getAllSnitchIdsStmt = db.prepareStatement(String.format(
 				"SELECT snitch_id FROM %s WHERE soft_delete = 0;", snitchsTbl));
 
-		//
 		cullSnitchEntriesStmt = db.prepareStatement(MessageFormat.format(
 			"CALL CullSnitches({0}, {1}, {2});",
 			minEntryLifetimeDays, maxEntryLifetimeDays, maxEntryCount));
@@ -718,7 +706,7 @@ public class JukeAlertLogger {
 
 	public void saveAllSnitches() {
 
-		//TODO: Save snitches.
+		// TODO: Save snitches
 		jukeinfobatch.flush();
 	}
 
@@ -738,11 +726,11 @@ public class JukeAlertLogger {
 
 		List<String> info = new ArrayList<String>();
 
-		// get the snitch's ID based on the location,
-		// then use that to get the snitch details from the snitchesDetail table
+		// Get the snitch's ID based on the location,
+		//  then use that to get the snitch details from the snitchesDetail table
 		int interestedSnitchId = -1;
 		try {
-			// params are x(int), y(int), z(int), world(tinyint), column returned: snitch_id (int)
+			// Params are x(int), y(int), z(int), world(tinyint), column returned: snitch_id (int)
 			getSnitchIdFromLocationStmt.setInt(1, loc.getBlockX());
 			getSnitchIdFromLocationStmt.setInt(2, loc.getBlockY());
 			getSnitchIdFromLocationStmt.setInt(3, loc.getBlockZ());
@@ -750,14 +738,14 @@ public class JukeAlertLogger {
 
 			ResultSet snitchIdSet = getSnitchIdFromLocationStmt.executeQuery();
 
-			// make sure we got a result
+			// Make sure we got a result
 			boolean didFind = false;
 			while (snitchIdSet.next()) {
 				didFind = true;
 				interestedSnitchId = snitchIdSet.getInt("snitch_id");
 			}
 
-			// only continue if we actually got a result from the first query
+			// Only continue if we actually got a result from the first query
 			if (!didFind) {
 				this.plugin.getLogger().log(Level.SEVERE,
 					"Didn't get any results trying to find a snitch in the snitches table at location " + loc);
@@ -776,7 +764,7 @@ public class JukeAlertLogger {
 	public List<SnitchAction> getSnitchInfo(int snitchId, int offset, LoggedAction filterAction, String filterPlayer) {
 
 		// Ensure that the supplied name is not null,
-		// doesn't contain special characters, and is at most 16 characters long
+		//  doesn't contain special characters, and is at most 16 characters long
 		if (filterPlayer == null) {
 			filterPlayer = "";
 		}
@@ -905,7 +893,7 @@ public class JukeAlertLogger {
 					}
 
 					// Building each line like this is a little ugly to look at,
-					// but it avoids compounding position errors
+					//  but it avoids compounding position errors
 					String currLine = ChatColor.WHITE.toString();
 					if (showWorldColumn) {
 						currLine = ChatFiller.fillString(currLine + snitchWorld, worldColWidth,
@@ -975,25 +963,25 @@ public class JukeAlertLogger {
 	public Boolean deleteSnitchInfo(Location loc) {
 
 		Boolean completed = false;
-		// get the snitch's ID based on the location,
-		// then use that to get the snitch details from the snitchesDetail table
+		// Get the snitch's ID based on the location,
+		//  then use that to get the snitch details from the snitchesDetail table
 		int interestedSnitchId = -1;
 		jukeinfobatch.flush();
 		try {
-			// params are x(int), y(int), z(int), world(tinyint), column returned: snitch_id (int)
+			// Params are x(int), y(int), z(int), world(tinyint), column returned: snitch_id (int)
 			getSnitchIdFromLocationStmt.setInt(1, loc.getBlockX());
 			getSnitchIdFromLocationStmt.setInt(2, loc.getBlockY());
 			getSnitchIdFromLocationStmt.setInt(3, loc.getBlockZ());
 			getSnitchIdFromLocationStmt.setString(4, loc.getWorld().getName());
 			ResultSet snitchIdSet = getSnitchIdFromLocationStmt.executeQuery();
-			// make sure we got a result
+			// Make sure we got a result
 			boolean didFind = false;
 			while (snitchIdSet.next()) {
 				didFind = true;
 				interestedSnitchId = snitchIdSet.getInt("snitch_id");
 			}
 
-			// only continue if we actually got a result from the first query
+			// Only continue if we actually got a result from the first query
 			if (!didFind) {
 				this.plugin.getLogger().log(Level.SEVERE,
 					"Didn't get any results trying to find a snitch in the snitches table at location " + loc);
@@ -1114,7 +1102,7 @@ public class JukeAlertLogger {
 	 */
 	public void logSnitchEntry(Snitch snitch, Location loc, Player player) {
 
-		// no material or victimUser for this event
+		// No material or victimUser for this event
 		this.logSnitchInfo(snitch, null, loc, new Date(), LoggedAction.ENTRY, player.getPlayerListName(), null);
 	}
 
@@ -1127,7 +1115,7 @@ public class JukeAlertLogger {
 	 */
 	public void logSnitchLogin(Snitch snitch, Location loc, Player player) {
 
-		// no material or victimUser for this event
+		// No material or victimUser for this event
 		this.logSnitchInfo(snitch, null, loc, new Date(), LoggedAction.LOGIN, player.getPlayerListName(), null);
 	}
 
@@ -1140,7 +1128,7 @@ public class JukeAlertLogger {
 	 */
 	public void logSnitchLogout(Snitch snitch, Location loc, Player player) {
 
-		// no material or victimUser for this event
+		// No material or victimUser for this event
 		this.logSnitchInfo(snitch, null, loc, new Date(), LoggedAction.LOGOUT, player.getPlayerListName(), null);
 	}
 
@@ -1153,7 +1141,7 @@ public class JukeAlertLogger {
 	 */
 	public void logSnitchBlockBreak(Snitch snitch, Player player, Block block) {
 
-		// no victim user in this event
+		// No victim user in this event
 		this.logSnitchInfo(snitch, block.getType(), block.getLocation(), new Date(), LoggedAction.BLOCK_BREAK,
 			player.getPlayerListName(), null);
 	}
@@ -1167,7 +1155,7 @@ public class JukeAlertLogger {
 	 */
 	public void logSnitchBlockPlace(Snitch snitch, Player player, Block block) {
 
-		// no victim user in this event
+		// No victim user in this event
 		this.logSnitchInfo(snitch, block.getType(), block.getLocation(), new Date(), LoggedAction.BLOCK_PLACE,
 			player.getPlayerListName(), null);
 	}
@@ -1183,7 +1171,7 @@ public class JukeAlertLogger {
 	 */
 	public void logSnitchBucketEmpty(Snitch snitch, Player player, Location loc, Material item) {
 
-		// no victim user in this event
+		// No victim user in this event
 		this.logSnitchInfo(snitch, item, loc, new Date(), LoggedAction.BUCKET_EMPTY, player.getPlayerListName(), null);
 	}
 
@@ -1221,7 +1209,7 @@ public class JukeAlertLogger {
 	 */
 	public void logSnitchBucketFill(Snitch snitch, Player player, Block block, Material mat) {
 
-		// no victim user in this event
+		// No victim user in this event
 		this.logSnitchInfo(snitch, mat, block.getLocation(), new Date(), LoggedAction.BUCKET_FILL, player.getName(),
 			null);
 	}
@@ -1239,7 +1227,7 @@ public class JukeAlertLogger {
 			player.getPlayerListName(), null);
 	}
 
-	//Logs the snitch being placed at World, x, y, z in the database.
+	// Logs the snitch being placed at World, x, y, z in the database
 	public void logSnitchPlace(final String world, final String group, final String name,
 			final int x, final int y, final int z, final boolean shouldLog) {
 
@@ -1269,7 +1257,7 @@ public class JukeAlertLogger {
 		});
 	}
 
-	//Removes the snitch at the location of World, X, Y, Z from the database.
+	// Removes the snitch at the location of World, X, Y, Z from the database
 	public void logSnitchBreak(final String world, final int x, final int y, final int z) {
 
 		Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
@@ -1301,7 +1289,7 @@ public class JukeAlertLogger {
 		});
 	}
 
-	//Changes the group of which the snitch is registered to at the location of loc in the database.
+	// Changes the group of which the snitch is registered to at the location of loc in the database
 	public void updateGroupSnitch(final Location loc, final String group) {
 
 		Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
@@ -1323,7 +1311,7 @@ public class JukeAlertLogger {
 		});
 	}
 
-	//Updates the cuboid size of the snitch in the database.
+	// Updates the cuboid size of the snitch in the database
 	public void updateCubiodSize(final Location loc, final int x, final int y, final int z) {
 
 		Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
@@ -1347,7 +1335,7 @@ public class JukeAlertLogger {
 		});
 	}
 
-	//Updates the name of the snitch in the database.
+	// Updates the name of the snitch in the database
 	public void updateSnitchName(final Snitch snitch, final String name) {
 
 		Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
@@ -1366,7 +1354,7 @@ public class JukeAlertLogger {
 		});
 	}
 
-	//Updates the ToggleLevers of the snitch in the database.
+	// Updates the ToggleLevers of the snitch in the database
 	public void updateSnitchToggleLevers(final Snitch snitch, final Boolean isEnabled) {
 
 		Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
@@ -1385,7 +1373,7 @@ public class JukeAlertLogger {
 		});
 	}
 
-	//Updates the group of the snitch in the database.
+	// Updates the group of the snitch in the database
 	public void updateSnitchGroup(final Snitch snitch, final String group) {
 
 		Bukkit.getScheduler().runTaskAsynchronously(plugin, new Runnable() {
@@ -1642,11 +1630,11 @@ public class JukeAlertLogger {
 		if (!set.next()) {
 			return null;
 		} else {
-			//add the first value
+			// Add the first value
 			ignoringUsers.add(set.getString(1));
-			//now if there is more loop through them
+			// Now if there is more loop through them
 			while (set.next()) {
-				//create set of uuids
+				// Create set of uuids
 				ignoringUsers.add(set.getString(1));
 			}
 		}
@@ -1663,7 +1651,7 @@ public class JukeAlertLogger {
 		String[] curGroupA = curGroups.split("\\s+");
 		List<String> groupList = new ArrayList<String>(Arrays.asList(curGroupA));
 		groupList.remove(removeGroup);
-		//back to string
+		// Back to string
 		String newGroups = StringUtils.join(groupList, " ");
 		try {
 			removeIgnoredGroupStmt.setString(1, newGroups);

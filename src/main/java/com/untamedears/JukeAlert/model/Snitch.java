@@ -66,7 +66,7 @@ public class Snitch implements QTBox, Comparable {
 		return location.getBlockZ();
 	}
 
-	// interface QTBox
+	// Interface QTBox
 	@Override
 	public int qtXMin() {
 
@@ -102,13 +102,13 @@ public class Snitch implements QTBox, Comparable {
 
 		return this.maxz;
 	}
-	// end interface QTBox
+	// End interface QTBox
 
-	// interface Comparable
+	// Interface Comparable
 	@Override
 	public int compareTo(Object o) {
 
-	  // This assumes that only a single snitch can exist at a given (x,y,z)
+	  // This assumes that only a single snitch can exist at a given (x, y, z)
 	  // Compare centers
 	  // TODO: Deal with volume changes when applicable
 	  // 1. Test X relationship
@@ -139,9 +139,9 @@ public class Snitch implements QTBox, Comparable {
 	  if (ty > oy) {
 		return 1;
 	  }
-	  return 0;  // equal
+	  return 0;  // Equal
 	}
-	// end interface Comparable
+	// End interface Comparable
 
 	public void calculateDimensions() {
 
@@ -218,19 +218,19 @@ public class Snitch implements QTBox, Comparable {
 		this.shouldToggleLevers = shouldToggleLevers;
 	}
 
-	//Checks if the location is within the cuboid.
+	// Checks if the location is within the cuboid
 	public boolean isWithinCuboid(Location loc) {
 
 		return isWithinCuboid(new Vector(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()));
 	}
 
-	//Checks if the block is within the cuboid.
+	// Checks if the block is within the cuboid
 	public boolean isWithinCuboid(Block block) {
 
 		return isWithinCuboid(new Vector(block.getX(), block.getY(), block.getZ()));
 	}
 
-	//Checks if the vector is within the cuboid.
+	// Checks if the vector is within the cuboid
 	public boolean isWithinCuboid(Vector vec) {
 
 		int vX = vec.getBlockX();

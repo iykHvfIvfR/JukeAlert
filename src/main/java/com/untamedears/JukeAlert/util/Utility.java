@@ -43,7 +43,7 @@ public class Utility {
 		final JukeAlert plugin = JukeAlert.getInstance();
 		Set<String> skipUUID = plugin.getJaLogger().getIgnoreUUIDs(g.getName());
 		if (skipUUID == null) {
-			//this should be fine as it is how it used to be done
+			// This should be fine as it is how it used to be done
 			skipUUID = null;
 		}
 		OnlineGroupMembers iter = OnlineGroupMembers.get(g.getName()).skipList(skipUUID);
@@ -64,7 +64,7 @@ public class Utility {
 		final JukeAlert plugin = JukeAlert.getInstance();
 		Set<String> skipUUID = plugin.getJaLogger().getIgnoreUUIDs(sG.getName());
 		if (skipUUID == null) {
-			//this should be fine as it is how it used to be done
+			// This should be fine as it is how it used to be done
 			skipUUID = null;
 		}
 		OnlineGroupMembers iter = OnlineGroupMembers.get(sG.getName()).reference(snitch.getLoc()).skipList(skipUUID);
@@ -85,7 +85,7 @@ public class Utility {
 		if (group == null) {
 			return true;
 		}
-		//group object might be outdated so use name
+		// Group object might be outdated so use name
 		return NameAPI.getGroupManager().hasAccess(group.getName(), accountId,
 			PermissionType.getPermission("SNITCH_IMMUNE"));
 	}

@@ -141,7 +141,7 @@ public class InfoCommand extends PlayerCommand {
 				}
 
 				// If the 'next' argument was supplied,
-				// get the next page number (provided that the filters are all the same as last time)
+				//  get the next page number (provided that the filters are all the same as last time)
 				if (nextFlag && playerPage_.containsKey(accountId)) {
 					final History hist = playerPage_.get(accountId);
 					if (hist != null

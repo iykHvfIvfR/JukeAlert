@@ -1,4 +1,4 @@
-//Adapted from https://github.com/andfRa/Saga
+// Adapted from https://github.com/andfRa/Saga
 
 package com.untamedears.JukeAlert.chat;
 

@@ -63,7 +63,7 @@ public class ClearCommand extends PlayerCommand {
 
 		final Player player = (Player) sender;
 		final Boolean completed = JukeAlert.getInstance().getJaLogger().deleteSnitchInfo(snitch.getId());
-		//only send messages sync
+		// Only send messages sync
 		new BukkitRunnable() {
 			@Override
 			public void run() {

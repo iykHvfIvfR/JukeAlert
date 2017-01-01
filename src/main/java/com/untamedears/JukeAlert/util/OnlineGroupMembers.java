@@ -232,7 +232,7 @@ public class OnlineGroupMembers implements Iterable<Player>, Iterator<Player> {
 		return state_ >= 3;
 	}
 
-	// If the player is out of range return null, otherwise return the player.
+	// If the player is out of range return null, otherwise return the player
 	private Player outOfRange(Player player) {
 
 		if (player == null) {
@@ -246,7 +246,7 @@ public class OnlineGroupMembers implements Iterable<Player>, Iterator<Player> {
 		return player;
 	}
 
-	// If the player is ignoring this group return null, otherwise return the player.
+	// If the player is ignoring this group return null, otherwise return the player
 	private Player playerIgnoringGroup(Player player) {
 
 		if (player == null) {

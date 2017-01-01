@@ -89,7 +89,7 @@ public class Database {
 			connection = DriverManager.getConnection(jdbc);
 			this.logger.log(Level.INFO, "Connected to database!");
 			return true;
-		} catch (SQLException ex) { //Error handling below:
+		} catch (SQLException ex) { // Error handling below:
 			this.logger.log(Level.SEVERE, "Could not connnect to the database!", ex);
 			return false;
 		}
@@ -169,7 +169,7 @@ public class Database {
 
 		try {
 			connection.prepareStatement(sql).executeUpdate();
-		} catch (SQLException ex) { // one quiet retry, scream on failure.
+		} catch (SQLException ex) { // One quiet retry, scream on failure
 			connect();
 			connection.prepareStatement(sql).executeUpdate();
 		}
@@ -184,7 +184,7 @@ public class Database {
 
 		try {
 			connection.prepareStatement(sql).executeUpdate();
-		} catch (SQLException ex) { // one quiet retry, scream on failure.
+		} catch (SQLException ex) { // One quiet retry, scream on failure
 			this.logger.log(Level.WARNING, "Quiet execution of SQL failed, no retry attempted.");
 		}
 	}

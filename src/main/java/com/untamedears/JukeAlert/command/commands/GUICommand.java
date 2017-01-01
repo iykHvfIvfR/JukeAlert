@@ -47,10 +47,10 @@ public class GUICommand extends PlayerCommand {
 			gui.showScreen();
 			return true;
 		}
-		// no snitch under cursor, so search around player
+		// No snitch under cursor, so search around player
 		Set<Snitch> snitches = JukeAlert.getInstance().getSnitchManager().findSnitches(
 			player.getWorld(), player.getLocation());
-		// remove the ones the player has no perms for
+		// Remove the ones the player has no perms for
 		Iterator<Snitch> iter = snitches.iterator();
 		while (iter.hasNext()) {
 			Snitch s = iter.next();

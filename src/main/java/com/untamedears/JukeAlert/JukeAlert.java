@@ -80,7 +80,7 @@ public class JukeAlert extends ACivMod {
 		modAndAbove.add(PlayerType.ADMINS);
 		modAndAbove.add(PlayerType.OWNER);
 		PermissionType.registerPermission("LIST_SNITCHES",
-			(LinkedList<PlayerType>) modAndAbove.clone()); //also tied to refreshing snitches
+			(LinkedList<PlayerType>) modAndAbove.clone()); // Also tied to refreshing snitches
 		PermissionType.registerPermission("SNITCH_NOTIFICATIONS", (LinkedList<PlayerType>) memberAndAbove.clone());
 		PermissionType.registerPermission("READ_SNITCHLOG", (LinkedList<PlayerType>) memberAndAbove.clone());
 		PermissionType.registerPermission("RENAME_SNITCH", (LinkedList<PlayerType>) modAndAbove.clone());
@@ -120,7 +120,7 @@ public class JukeAlert extends ACivMod {
 		return commandHandler;
 	}
 
-	//Logs a message with the level of Info.
+	// Logs a message with the level of Info
 	public void log(String message) {
 
 		this.getLogger().log(Level.INFO, message);

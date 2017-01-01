@@ -6,14 +6,14 @@ import java.util.UUID;
 
 public class IgnoreList {
 
-	//only going to be used for /jamute when they mute all groups for a small amount of time
+	// Only going to be used for /jamute when they mute all groups for a small amount of time
 
 	private IgnoreList() { }
 
 	private static Map<UUID, Boolean> playerIgnoreAlls_ = new HashMap<UUID, Boolean>();
 
 	// Toggle the global ignore flag for a specific account. If the player isn't
-	// noted in the map, enable the ignore bit.
+	//  noted in the map, enable the ignore bit
 	public static boolean toggleIgnoreAll(UUID accountId) {
 
 		boolean newState;

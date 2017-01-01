@@ -423,7 +423,7 @@ public class JukeAlertListener implements Listener {
 					&& from.getBlockY() == to.getBlockY()
 					&& from.getBlockZ() == to.getBlockZ()
 					&& from.getWorld().equals(to.getWorld())) {
-				// Player didn't move by at least one block.
+				// Player didn't move by at least one block
 				return;
 			}
 			Player player = event.getPlayer();
@@ -443,7 +443,7 @@ public class JukeAlertListener implements Listener {
 		}
 	}
 
-	//Because teleporting doesn't trigger a movement event :/
+	// Because teleporting doesn't trigger a movement event :/
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerTeleport(PlayerTeleportEvent event) {
 
@@ -468,7 +468,7 @@ public class JukeAlertListener implements Listener {
 		for (Snitch snitch : snitches) {
 			if (doesSnitchExist(snitch, true)) {
 				try {
-					//refresh cull timer of snitch
+					// Refresh cull timer of snitch
 					if (NameAPI.getGroupManager().hasAccess(snitch.getGroup(), player.getUniqueId(),
 							PermissionType.getPermission("LIST_SNITCHES"))) {
 						if (!inList.contains(snitch)) {
@@ -549,7 +549,7 @@ public class JukeAlertListener implements Listener {
 		inList.removeAll(rmList);
 	}
 
-	// Exceptions:  No exceptions must be raised from this for any reason.
+	// Exceptions:  No exceptions must be raised from this for any reason
 	private void toggleLeverIfApplicable(final Snitch snitch, final Location blockToPossiblyToggle,
 			final Boolean leverShouldEnable) {
 

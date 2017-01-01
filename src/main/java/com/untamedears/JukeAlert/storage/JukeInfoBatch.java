@@ -36,8 +36,8 @@ public class JukeInfoBatch {
 
 	private Object currentLastVisitLock = new Object();
 
-	// Add a set of last visit data.
-	// NOTE:  If it turns out that this is still too spammy, we can
+	// Add a set of last visit data
+	// NOTE: If it turns out that this is still too spammy, we can
 	//	instead add to a dictionary and simply not let the same snitch be
 	//	updated twice in a single batch.  Holding on this optimization however.
 	public void addLastVisitData(Snitch snitch) {
@@ -52,9 +52,9 @@ public class JukeInfoBatch {
 				currentLastVisitSet.setInt(1, snitch.getId());
 				currentLastVisitSet.addBatch();
 
-			} // synchronized
+			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			// TODO: Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -103,9 +103,9 @@ public class JukeInfoBatch {
 
 				currentSet.addBatch();
 
-			} // synchronized
+			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			// TODO: Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -133,7 +133,7 @@ public class JukeInfoBatch {
 			try {
 				executeMe.executeBatch();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				// TODO: Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -151,7 +151,7 @@ public class JukeInfoBatch {
 			try {
 				executeMe.executeBatch();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				// TODO: Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
