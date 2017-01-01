@@ -18,11 +18,11 @@ public class JaToggleLeversCommand extends PlayerCommand {
 
 	 public JaToggleLeversCommand() {
 
-			super("ToggleLevers");
-			setDescription("Sets flag indicating if this juke will toggle levers on certain actions.");
-			setUsage("/JaToggleLevers <1|0>");
-			setArguments(1, 1);
-			setIdentifier("jatogglelevers");
+		super("ToggleLevers");
+		setDescription("Sets flag indicating if this juke will toggle levers on certain actions.");
+		setUsage("/JaToggleLevers <1|0>");
+		setArguments(1, 1);
+		setIdentifier("jatogglelevers");
 	}
 
 	@Override
