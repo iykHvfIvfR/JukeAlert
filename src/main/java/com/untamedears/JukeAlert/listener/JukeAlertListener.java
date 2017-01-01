@@ -204,73 +204,48 @@ public class JukeAlertListener implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void reinforceSnitchBlock(ReinforcementCreationEvent event) {
+
 		if (event.isCancelled()) {
 			return;
 		}
 		Block block = event.getBlock();
-		if (block.getType().equals(Material.JUKEBOX)) {
-			Player player = event.getPlayer();
-			Location loc = block.getLocation();
-			Reinforcement rei = event.getReinforcement();
-			if (rei instanceof PlayerReinforcement) {
-				PlayerReinforcement reinforcement = (PlayerReinforcement) rei;
-				Group owner = reinforcement.getGroup();
-				if (owner == null) {
-					JukeAlert.getInstance().log(String.format(
-							"No group on rein (%s)", reinforcement.getLocation().toString()));
-				}
-				Snitch snitch;
-				if (snitchManager.getSnitch(loc.getWorld(), loc) != null) {
-					snitch = snitchManager.getSnitch(loc.getWorld(), loc);
-					plugin.getJaLogger().updateSnitchGroup(
-						snitchManager.getSnitch(loc.getWorld(), loc), owner.getName());
-					snitchManager.removeSnitch(snitch);
-					snitch.setGroup(owner);
-				} else {
-					snitch = new Snitch(loc, owner, true, false);
-					plugin.getJaLogger().logSnitchPlace(
-						player.getWorld().getName(), owner.getName(), "", loc.getBlockX(), loc.getBlockY(),
-						loc.getBlockZ(), true);
-					snitch.setId(plugin.getJaLogger().getLastSnitchID());
-					plugin.getJaLogger().increaseLastSnitchID();
-				}
-				snitchManager.addSnitch(snitch);
+		boolean isJukebox = block.getType().equals(Material.JUKEBOX);
+		Player player = event.getPlayer();
+		Location loc = block.getLocation();
+		Reinforcement rei = event.getReinforcement();
+		if (!(rei instanceof PlayerReinforcement)) {
+			return;
+		}
+		PlayerReinforcement reinforcement = (PlayerReinforcement) rei;
+		Group owner = reinforcement.getGroup();
+		if (owner == null) {
+			JukeAlert.getInstance().log(String.format(
+				"No group on rein (%s)", reinforcement.getLocation().toString()));
+		}
+		Snitch snitch;
+		if (snitchManager.getSnitch(loc.getWorld(), loc) != null) {
+			snitch = snitchManager.getSnitch(loc.getWorld(), loc);
+			plugin.getJaLogger().updateSnitchGroup(
+				snitchManager.getSnitch(loc.getWorld(), loc), owner.getName());
+			snitchManager.removeSnitch(snitch);
+			snitch.setGroup(owner);
+		} else {
+			snitch = new Snitch(loc, owner, isJukebox, false);
+			plugin.getJaLogger().logSnitchPlace(
+				player.getWorld().getName(), owner.getName(), "", loc.getBlockX(), loc.getBlockY(),
+				loc.getBlockZ(), isJukebox);
+			snitch.setId(plugin.getJaLogger().getLastSnitchID());
+			plugin.getJaLogger().increaseLastSnitchID();
+		}
+		snitchManager.addSnitch(snitch);
 
-				player.sendMessage(
-					ChatColor.AQUA + "You've created a snitch block registered to the group " + owner.getName()
-					+ ".  To name your snitch, type /janame.");
-			}
-		} else if (block.getType().equals(Material.NOTE_BLOCK)) {
-			Player player = event.getPlayer();
-			Location loc = block.getLocation();
-			Reinforcement rei = event.getReinforcement();
-			if (rei instanceof PlayerReinforcement) {
-				PlayerReinforcement reinforcement = (PlayerReinforcement) rei;
-				Group owner = reinforcement.getGroup();
-				if (owner == null) {
-					JukeAlert.getInstance().log(String.format(
-							"No group on rein (%s)", reinforcement.getLocation().toString()));
-				}
-				Snitch snitch;
-				if (snitchManager.getSnitch(loc.getWorld(), loc) != null) {
-					snitch = snitchManager.getSnitch(loc.getWorld(), loc);
-					plugin.getJaLogger().updateSnitchGroup(
-						snitchManager.getSnitch(loc.getWorld(), loc), owner.getName());
-					snitchManager.removeSnitch(snitch);
-					snitch.setGroup(owner);
-				} else {
-					snitch = new Snitch(loc, owner, false, false);
-					plugin.getJaLogger().logSnitchPlace(
-						player.getWorld().getName(), owner.getName(), "", loc.getBlockX(), loc.getBlockY(),
-						loc.getBlockZ(), false);
-					snitch.setId(plugin.getJaLogger().getLastSnitchID());
-					plugin.getJaLogger().increaseLastSnitchID();
-				}
-				snitchManager.addSnitch(snitch);
-
-				player.sendMessage(ChatColor.AQUA + "You've created an entry snitch registered to the group "
-					+ owner.getName() + ".  To name your entry snitch, type /janame.");
-			}
+		if (isJukebox) {
+			player.sendMessage(
+				ChatColor.AQUA + "You've created a snitch block registered to the group " + owner.getName()
+				+ ".  To name your snitch, type /janame.");
+		} else {
+			player.sendMessage(ChatColor.AQUA + "You've created an entry snitch registered to the group "
+				+ owner.getName() + ".  To name your entry snitch, type /janame.");
 		}
 	}
 
