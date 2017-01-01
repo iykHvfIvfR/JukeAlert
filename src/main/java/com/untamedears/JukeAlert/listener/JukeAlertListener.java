@@ -13,6 +13,10 @@ import java.util.TreeSet;
 import java.util.UUID;
 import java.util.logging.Level;
 
+import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -248,14 +252,32 @@ public class JukeAlertListener implements Listener {
 		}
 		snitchManager.addSnitch(snitch);
 
+		String snitchWorldName = "";
+		if (snitch.getLoc() != null
+				&& snitch.getLoc().getWorld() != null
+				&& snitch.getLoc().getWorld().getName() != null) {
+			snitchWorldName = snitch.getLoc().getWorld().getName();
+		}
+		String snitchLocation = "[" + snitch.getX() + " " + snitch.getY() + " " + snitch.getZ() + "]";
+		String snitchGroupName = "";
+		if (snitch.getGroup() != null && snitch.getGroup().getName() != null) {
+			snitchGroupName = snitch.getGroup().getName();
+		}
+		String hoverText = String.format("World: %s\nLocation: %s\nGroup: %s",
+			snitchWorldName, snitchLocation, snitchGroupName);
+
+		String message;
 		if (isJukebox) {
-			player.sendMessage(
-				ChatColor.AQUA + "You've created a snitch block registered to the group " + owner.getName()
+			message = (ChatColor.AQUA + "You've created a snitch block registered to the group " + snitchGroupName
 				+ ".  To name your snitch, type /janame.");
 		} else {
-			player.sendMessage(ChatColor.AQUA + "You've created an entry snitch registered to the group "
-				+ owner.getName() + ".  To name your entry snitch, type /janame.");
+			message = (ChatColor.AQUA + "You've created an entry snitch registered to the group " + snitchGroupName
+				+ ".  To name your entry snitch, type /janame.");
 		}
+		TextComponent lineText = new TextComponent(message);
+		lineText.setHoverEvent(
+			new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hoverText).create()));
+		player.spigot().sendMessage(lineText);
 	}
 
 	@EventHandler(ignoreCancelled = true)
