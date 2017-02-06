@@ -26,23 +26,34 @@ public class SendSnitchInfo implements Runnable {
 
 	private String snitchName;
 
+	private boolean isJukebox;
+
 	private boolean shouldCensor;
 
 	private boolean isGroup;
 
-	public SendSnitchInfo(List<SnitchAction> info, Player player, int offset, String snitchName, boolean shouldCensor,
-			boolean isGroup) {
+	public SendSnitchInfo(List<SnitchAction> info, Player player, int offset, String snitchName, boolean isJukebox,
+			boolean shouldCensor, boolean isGroup) {
 
 		this.info = info;
 		this.player = player;
 		this.offset = offset;
 		this.snitchName = snitchName;
+		this.isJukebox = isJukebox;
 		this.shouldCensor = shouldCensor;
 		this.isGroup = isGroup;
 	}
 
 	public void run() {
 
+		if (!isJukebox) {
+			if (this.snitchName == null) {
+				player.sendMessage(ChatColor.AQUA + " * Unnamed entry snitch");
+			} else {
+				player.sendMessage(ChatColor.AQUA + " * Entry snitch " + this.snitchName);
+			}
+			return;
+		}
 		if (info != null && !info.isEmpty()) {
 			String output = "";
 
