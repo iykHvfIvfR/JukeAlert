@@ -9,6 +9,7 @@ A plugin for Minecraft 1.10 that turns Noteblocks and Jukeboxes into snitches wh
 - Reinforce a **Jukebox** with a [Citadel](https://github.com/DevotedMC/Citadel) reinforcement to create a snitch. The snitch will send a notification to everyone on the Citadel group its reinforced to when other players enter its field - an 11 block cube centered on the snitch. It will also record all actions that occur within its field. Use /jainfo to check what players did in the snitched area while you were gone.
 
 Wiki: https://github.com/Civcraft/JukeAlert/wiki
+
 Getting started with Devoted: https://www.reddit.com/r/Devoted/wiki/help
 
 ## Contributing
