@@ -116,7 +116,7 @@ public class SendSnitchInfo implements Runnable {
 		} else if (this.snitchName != null) {
 			player.sendMessage(ChatColor.AQUA + " * Page " + offset + " is empty for snitch " + this.snitchName);
 		} else {
-			player.sendMessage(ChatColor.AQUA + " * Page " + offset + " is empty");
+			player.sendMessage(ChatColor.AQUA + " * Page " + offset + " is empty for unnamed snitch");
 		}
 	}
 }
