@@ -1471,7 +1471,8 @@ public class JukeAlertLogger {
 		final Snitch snitch = JukeAlert.getInstance().getSnitchManager().getSnitch(snitchID);
 		final String name = (snitch == null) ? "" : snitch.getName();
 
-		final String initiator = ChatFiller.fillString(entry.getInitiateUser(), 22.0);
+		// Must be at least 24.0 not to cut off long and/or wide nicknames (https://github.com/DevotedMC/JukeAlert/issues/56)
+		final String initiator = ChatFiller.fillString(entry.getInitiateUser(), 24.0);
 		final String victim = entry.getVictim();
 		final int actionValue = entry.getSnitchActionId();
 		final LoggedAction action = entry.getAction();
