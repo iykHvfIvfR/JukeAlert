@@ -30,7 +30,7 @@ commands:
     usage: /jaclear
   janame:
     description: Name a snitch
-    usage: /janame <name>
+    usage: /janame <name> [<x> <y> <z> [world]]
   jalookup:
     description: Look up a snitch by its coordinates
     usage: /jalookup <x> <y> <z> [world]
