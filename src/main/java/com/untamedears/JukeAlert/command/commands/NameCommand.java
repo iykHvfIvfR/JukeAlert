@@ -32,33 +32,34 @@ public class NameCommand extends PlayerCommand {
 	@Override
 	public boolean execute(CommandSender sender, String[] args) {
 
-		if (sender instanceof Player) {
-			Player player = (Player) sender;
-
-			String name = "";
-			if (args[0].length() > 40) {
-				name = args[0].substring(0, 40);
-			} else {
-				name = args[0];
-			}
-			Snitch snitch = findLookingAtOrClosestSnitch(player, PermissionType.getPermission("RENAME_SNITCH"));
-			if (snitch != null) {
-				String prevName = snitch.getName();
-				JukeAlert plugin = JukeAlert.getInstance();
-				plugin.getJaLogger().updateSnitchName(snitch, name);
-				snitch.setName(name);
-
-				TextComponent lineText = new TextComponent(ChatColor.AQUA + " Changed snitch name to " + name);
-				String hoverText = snitch.getHoverText(prevName, null);
-				lineText.setHoverEvent(
-					new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hoverText).create()));
-				player.spigot().sendMessage(lineText);
-			}
-			return true;
-		} else {
-			sender.sendMessage(ChatColor.RED + "You do not own any snitches nearby or lack permission to rename them!");
+		if (!(sender instanceof Player)) {
+			sender.sendMessage(
+				ChatColor.RED + "You do not own any snitches nearby or lack permission to rename them!");
 			return false;
 		}
+		Player player = (Player) sender;
+		Snitch snitch = findLookingAtOrClosestSnitch(player, PermissionType.getPermission("RENAME_SNITCH"));
+		if (snitch == null) {
+			return true;
+		}
+
+		String name = "";
+		if (args[0].length() > 40) {
+			name = args[0].substring(0, 40);
+		} else {
+			name = args[0];
+		}
+		String prevName = snitch.getName();
+		JukeAlert plugin = JukeAlert.getInstance();
+		plugin.getJaLogger().updateSnitchName(snitch, name);
+		snitch.setName(name);
+
+		TextComponent lineText = new TextComponent(ChatColor.AQUA + " Changed snitch name to " + name);
+		String hoverText = snitch.getHoverText(prevName, null);
+		lineText.setHoverEvent(
+			new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(hoverText).create()));
+		player.spigot().sendMessage(lineText);
+		return true;
 	}
 
 	@Override
