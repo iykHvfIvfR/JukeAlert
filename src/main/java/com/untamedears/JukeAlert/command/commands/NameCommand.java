@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -40,6 +41,7 @@ public class NameCommand extends PlayerCommand {
 			return false;
 		}
 		Player player = (Player) sender;
+		JukeAlert plugin = JukeAlert.getInstance();
 		Snitch snitch;
 		if (args.length == 1) {
 			snitch = Utility.findLookingAtOrClosestSnitch(
@@ -57,26 +59,27 @@ public class NameCommand extends PlayerCommand {
 			int x;
 			int y;
 			int z;
-			String world;
+			String worldName;
 			try {
 				x = Integer.parseInt(args[1]);
 				y = Integer.parseInt(args[2]);
 				z = Integer.parseInt(args[3]);
 				if (args.length == 4) {
-					world = player.getLocation().getWorld().getName();
+					worldName = player.getLocation().getWorld().getName();
 				} else {
-					world = args[4];
+					worldName = args[4];
 				}
 			} catch (NumberFormatException e) {
 				sender.sendMessage(ChatColor.RED + "Invalid coordinates.");
 				return false;
 			}
-			if (Bukkit.getWorld(world) == null) {
+			World world = Bukkit.getWorld(worldName);
+			if (world == null) {
 				sender.sendMessage(ChatColor.RED + "Invalid world.");
 				return false;
 			}
-			Location loc = new Location(Bukkit.getWorld(world), x, y, z);
-			snitch = JukeAlert.getInstance().getSnitchManager().getSnitch(loc.getWorld(), loc);
+			Location loc = new Location(world, x, y, z);
+			snitch = plugin.getSnitchManager().getSnitch(loc.getWorld(), loc);
 			if (snitch == null
 					|| !Utility.doesSnitchExist(snitch, true)
 					|| !NameAPI.getGroupManager().hasAccess(
@@ -96,7 +99,6 @@ public class NameCommand extends PlayerCommand {
 			name = args[0];
 		}
 		String prevName = snitch.getName();
-		JukeAlert plugin = JukeAlert.getInstance();
 		plugin.getJaLogger().updateSnitchName(snitch, name);
 		snitch.setName(name);
 
