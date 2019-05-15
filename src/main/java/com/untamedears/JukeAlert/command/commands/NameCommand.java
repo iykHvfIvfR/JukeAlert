@@ -50,6 +50,10 @@ public class NameCommand extends PlayerCommand {
 				return false;
 			}
 		} else {
+			if (args.length < 4) {
+				sender.sendMessage(ChatColor.RED + "Invalid number of coordinates.");
+				return false;
+			}
 			int x;
 			int y;
 			int z;
@@ -63,7 +67,7 @@ public class NameCommand extends PlayerCommand {
 				} else {
 					world = args[4];
 				}
-			} catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
+			} catch (NumberFormatException e) {
 				sender.sendMessage(ChatColor.RED + "Invalid coordinates.");
 				return false;
 			}
