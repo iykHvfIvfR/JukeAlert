@@ -36,8 +36,7 @@ public class NameCommand extends PlayerCommand {
 	public boolean execute(CommandSender sender, String[] args) {
 
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(
-				ChatColor.RED + "You do not own any snitches nearby or lack permission to rename them!");
+			sender.sendMessage(ChatColor.RED + "You are not a player!");
 			return false;
 		}
 		Player player = (Player) sender;
